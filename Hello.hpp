@@ -22,7 +22,6 @@ using ::Writer::Out::Console;
 using ::Writer::Out::File;
 
 // impl
-#include "CoreWindow.hpp"
 #include "Writer.inl"
 #include "Exception.inl"
 #include "Timer.inl"
