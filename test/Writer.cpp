@@ -6,7 +6,7 @@ int main()
 {
     auto Write{
         []()
-        {
+        { 
             const wchar_t *txt[10]{
                 L" 1",
                 L" 2",
