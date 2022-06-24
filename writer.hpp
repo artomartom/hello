@@ -4,19 +4,6 @@
 
 namespace Writer
 {
-    constexpr bool IsConsoleAvailable()
-    {
-#if (!defined(CONSOLE)) && (defined(GUI))
-#define GUI_ONLY(expr) expr
-#define CONSOLE_ONLY(expr)
-
-        return false;
-#else
-#define GUI_ONLY(expr)
-#define CONSOLE_ONLY(expr) expr
-        return true;
-#endif
-    };
 
     enum class Out : uint32_t
     {
@@ -32,11 +19,6 @@ namespace Writer
         Error = (Warning + 1),
 
     };
-
-    inline std::wstring GetSysTime();
-
-    template <Type T>
-    constexpr std::wstring_view prefix();
 
     template <Type T, Out O>
     struct Message;

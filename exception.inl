@@ -3,6 +3,7 @@
 
 namespace Exception
 {
+#ifdef WIN32
     inline void TranslateExceptionCode(_In_ ::DWORD Code)
     {
         std::wstringstream output;
@@ -56,8 +57,7 @@ namespace Exception
             output << L"(TRANSLATION FAILED)\n";
         };
 
-        CONSOLE_ONLY(Error<Console>::Write(output.str()));
-        GUI_ONLY(Error<File>::Write(output.str()));
+        Error<Console>::Write(output.str());
     };
 
     // Get exception record and delegate  exception to handler
@@ -73,7 +73,7 @@ namespace Exception
         EXCEPTION_RECORD Record{};
         __try
         {
-            typename std::is_function<PF>::value_type res = std::invoke(pfunction, args...);
+            typename std::is_function<PF>::value_type res = pfunction( args...);
             if (res != 0)
             {
                 CONSOLE_ONLY(Error<Console>::Write(L"Application Exited with result: ", res));
@@ -87,33 +87,6 @@ namespace Exception
             return typename std::is_function<PF>::value_type{};
         };
     };
-
-    constexpr std::wstring_view ToFunc(std::wstring_view FunctionName)
-    {
-
-        for (size_t index = 0; index != FunctionName.size(); index++)
-        {
-            if (FunctionName[index] == L'(')
-                for (size_t reverse_index = index - 1; reverse_index != 0; --reverse_index)
-                {
-                    if (
-                        (FunctionName[reverse_index] < L'0') ||
-                        (FunctionName[reverse_index] > L'9' && FunctionName[reverse_index] < L'A') ||
-                        (FunctionName[reverse_index] > L'Z' && FunctionName[reverse_index] < L'a') ||
-                        (FunctionName[reverse_index] > L'z') ||
-                        FunctionName[reverse_index] == L' ')
-                    {
-                        return FunctionName.substr(reverse_index + 1, index - reverse_index - 1);
-                    }
-                };
-        }
-        return L"";
-    };
-
-    constexpr std::wstring_view ToFile(std::wstring_view FileName)
-    {
-        return FileName.substr(FileName.find_last_of(L'\\') + 1, FileName.size());
-    }
 
     inline HRESULT FormatError(std::wstring_view File, uint32_t uLine, std::wstring_view Func, HRESULT ErrorCode, std::wstring_view Note)
     {
@@ -156,5 +129,57 @@ namespace Exception
 
         return ErrorCode;
     };
+
+#endif // WIN32
+#ifdef __linux__
+
+    template <typename PF, typename... Args>
+    auto Invoke(PF pfunction, Args... args)
+    {
+        try
+        {
+            typename std::is_function<PF>::value_type res = pfunction(args...);
+            if (res != 0)
+            {
+                Error<Console>::Write(L"Application Exited with result: ", res);
+            };
+            return res;
+        }
+        catch (...)
+        {
+            Error<Console>::Write(L"lol,exception");
+            return typename std::is_function<PF>::value_type{};
+        };
+    }
+#endif //__linux__
+
+    constexpr std::wstring_view ToFunc(std::wstring_view FunctionName)
+    {
+
+        for (size_t index = 0; index != FunctionName.size(); index++)
+        {
+            if (FunctionName[index] == L'(')
+                for (size_t reverse_index = index - 1; reverse_index != 0; --reverse_index)
+                {
+                    if (
+                        (FunctionName[reverse_index] < L'0') ||
+                        (FunctionName[reverse_index] > L'9' && FunctionName[reverse_index] < L'A') ||
+                        (FunctionName[reverse_index] > L'Z' && FunctionName[reverse_index] < L'a') ||
+                        (FunctionName[reverse_index] > L'z') ||
+                        FunctionName[reverse_index] == L' ')
+                    {
+                        return FunctionName.substr(reverse_index + 1, index - reverse_index - 1);
+                    }
+                };
+        }
+        return L"";
+    };
+
+    constexpr std::wstring_view ToFile(std::wstring_view FileName)
+    {
+        return FileName.substr(FileName.find_last_of(L'\\') + 1, FileName.size());
+    }
+
 };
-#endif
+
+#endif // EXCEPTION_INL

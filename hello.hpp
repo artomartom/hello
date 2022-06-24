@@ -1,8 +1,12 @@
 #pragma once
+
+#ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#endif // WIN32
+
 #include <iostream> //
-#include <fstream> //
+#include <fstream>  //
 #include <sstream>
 #include <iomanip>
 #include <assert.h>
@@ -10,11 +14,10 @@
 #include <mutex>
 #include <tuple>
 // decl
-#include "Writer.hpp"
-#include "Exception.hpp"
-#include "Timer.hpp"
+#include "writer.hpp"
+#include "exception.hpp"
+#include "timer.hpp"
 
-using ::Exception::Invoke;
 using ::Writer::Error;
 using ::Writer::Log;
 using ::Writer::Warning;
@@ -22,6 +25,6 @@ using ::Writer::Out::Console;
 using ::Writer::Out::File;
 
 // impl
-#include "Writer.inl"
-#include "Exception.inl"
-#include "Timer.inl"
+#include "writer.inl"
+#include "exception.inl"
+#include "timer.inl"

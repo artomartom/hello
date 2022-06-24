@@ -1,6 +1,8 @@
 #ifndef EXCEPTION_HPP
 #define EXCEPTION_HPP
 
+#ifdef WIN32
+
 #define Beep (MessageBeep(5))
 
 #if defined(_DEBUG) || defined(PROFILE)
@@ -17,14 +19,14 @@
 #define DBG_ONLY(expr) expr
 #define W32_ERR(Error, Note) H_CHECK(HRESULT_FROM_WIN32(Error), Note)
 #else
-#define H_ERR(hr, Note) hr         //
-#define H_CHECK(hr, Note) (hr == S_OK)    // true == ok
-#define H_OK(hr) (hr == S_OK)      //  formats hr errors (if any) in debug\profile mode
-#define H_FAIL(hr) (hr != S_OK)    //
-#define W32(expr) expr             // check winapi err
-#define RLS_ONLY(expr) expr        //    expr is  part of   release build  only ( )
-#define DBG_ONLY(expr) 0           //    expr is not a part of   release build
-#define W32_ERR(Error, Note) Error // todo :do something
+#define H_ERR(hr, Note) hr             //
+#define H_CHECK(hr, Note) (hr == S_OK) // true == ok
+#define H_OK(hr) (hr == S_OK)          //  formats hr errors (if any) in debug\profile mode
+#define H_FAIL(hr) (hr != S_OK)        //
+#define W32(expr) expr                 // check winapi err
+#define RLS_ONLY(expr) expr            //    expr is  part of   release build  only ( )
+#define DBG_ONLY(expr) 0               //    expr is not a part of   release build
+#define W32_ERR(Error, Note) Error     // todo :do something
 
 #endif //  defined(_DEBUG) || defined(PROFILE)
 
@@ -38,9 +40,15 @@ namespace Exception
     {
         return (ErrorCode == S_OK) ? true : (S_OK == FormatError(File, uLine, Func, ErrorCode, Note));
     };
-    constexpr std::wstring_view ToFunc(std::wstring_view FunctionName);
-    constexpr std::wstring_view ToFile(std::wstring_view FileName);
 
 };
 
-#endif
+#endif // WIN32
+
+namespace Exception
+{
+    constexpr std::wstring_view ToFunc(std::wstring_view FunctionName);
+    constexpr std::wstring_view ToFile(std::wstring_view FileName);
+};
+
+#endif // EXCEPTION_HPP
