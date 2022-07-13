@@ -1,4 +1,0 @@
-/home/artom/deve/projects/hello/test/build/CMakeFiles/Writer.dir
-/home/artom/deve/projects/hello/test/build/CMakeFiles/window.dir
-/home/artom/deve/projects/hello/test/build/CMakeFiles/edit_cache.dir
-/home/artom/deve/projects/hello/test/build/CMakeFiles/rebuild_cache.dir

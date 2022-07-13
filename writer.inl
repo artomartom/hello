@@ -1,9 +1,8 @@
 #ifndef WRITER_INL
 #define WRITER_INL
 
- 
 #define CONSTEXPR constexpr
- 
+
 namespace Writer
 {
 
@@ -11,7 +10,7 @@ namespace Writer
     struct AddSpace
     {
         AddSpace(const T &ref) : ref{ref} {};
-        friend std::wostream &operator<<(std::wostream &os, const AddSpace &that)
+        CONSTEXPR friend std::wostream &operator<<(std::wostream &os, const AddSpace &that)
         {
             return os << L' ' << that.ref;
         }
@@ -24,6 +23,7 @@ namespace Writer
     {
         friend std::wostream &operator<<(std::wostream &os, const PutLocalTime &thats)
         {
+            (void)thats;
             auto now{std::chrono::system_clock::now()};
             auto in_time_t{std::chrono::system_clock::to_time_t(now)};
             return os << std::put_time(std::localtime(&in_time_t), L"%Y-%m-%d %X\n");
@@ -47,7 +47,7 @@ namespace Writer
             auto ss{Accumulate(std::forward<const Arg &>(arg), std::forward<const Args &>(args)...)};
             std::lock_guard<std::mutex> lockGuard{m};
             std::wcout << ss.str().c_str();
-        };
+        } 
         inline static std::mutex m{};
     };
 
@@ -64,7 +64,7 @@ namespace Writer
             auto ss{Accumulate(std::forward<const Arg &>(arg), std::forward<const Args &>(args)...)};
             std::lock_guard<std::mutex> lockGuard{m};
             std::wcerr << ss.str().c_str();
-        };
+        } 
         inline static std::mutex m{};
     };
 
@@ -78,7 +78,7 @@ namespace Writer
             std::lock_guard<std::mutex> lockGuard{m};
             std::wfstream fos{"_log", std::ios::binary | std::ios::app};
             fos << ss.str().c_str();
-        };
+        } 
         inline static std::mutex m{};
     };
     template <>
@@ -91,7 +91,7 @@ namespace Writer
             std::lock_guard<std::mutex> lockGuard{m};
             std::wfstream fos{"_warning", std::ios::binary | std::ios::app};
             fos << ss.str().c_str();
-        };
+        } 
         inline static std::mutex m{};
     };
 
@@ -105,7 +105,7 @@ namespace Writer
             std::lock_guard<std::mutex> lockGuard{m};
             std::wfstream fos{"_error", std::ios::binary | std::ios::app};
             fos << ss.str().c_str();
-        };
+        } 
         inline static std::mutex m{};
     };
 
