@@ -1,5 +1,5 @@
-#pragma once
 
+#ifdef WIN32
 #include "../Hello.hpp"
 
 #define CASE(message, action) \
@@ -157,3 +157,6 @@ private:
 EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 int wWinMain(_In_ HINSTANCE hinst, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ int) { return Invoke(&Test::AppEntry, hinst); };
 int main() { return Invoke(&Test::AppEntry, (HINSTANCE)&__ImageBase); };
+#else
+int main() { return 0; };
+#endif// WIN32

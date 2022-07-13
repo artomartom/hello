@@ -1,12 +1,13 @@
 
-#include "../Hello.hpp"
+#include "../hello.hpp"
 #include <thread>
-
+using namespace Writer;
 int main()
 {
+    /*
     auto Write{
         []()
-        { 
+        {
             const wchar_t *txt[10]{
                 L" 1",
                 L" 2",
@@ -22,8 +23,8 @@ int main()
 
             for (auto &each : txt)
             {
-                Log<Console>::Write(each, ' ', each);
-                Log<File>::Write(each, ' ', each);
+                Log<Console>::Write(each,  each);
+                Log<File>::Write(each,  each);
             }
         }};
 
@@ -31,5 +32,12 @@ int main()
     std::thread write2{Write};
     write1.join();
     write2.join();
-    MessageBeep(5);
+*/
+    Log<Console>::Write("this is Console Log");
+    Warning<Console>::Write("this is Console Warning");
+    Error<Console>::Write("this is Console Error");
+
+    Log<File>::Write("this is File Log");
+    Warning<File>::Write("this is File Warning");
+    Error<File>::Write("this is File Error");
 };

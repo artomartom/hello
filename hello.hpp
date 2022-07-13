@@ -1,5 +1,18 @@
-#pragma once
+#ifndef HELLO
+#define HELLO
 
+
+/*
+  __cplusplus > 199711L
+
+  __cplusplus > 201103L
+
+ __cplusplus > 201402L
+
+ __cplusplus > 201703L
+
+ __cplusplus > 202002L
+*/
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
@@ -15,16 +28,12 @@
 #include <tuple>
 // decl
 #include "writer.hpp"
-#include "exception.hpp"
-#include "timer.hpp"
-
-using ::Writer::Error;
-using ::Writer::Log;
-using ::Writer::Warning;
-using ::Writer::Out::Console;
-using ::Writer::Out::File;
+//#include "exception.hpp"
+//#include "timer.hpp"
 
 // impl
 #include "writer.inl"
-#include "exception.inl"
-#include "timer.inl"
+//#include "exception.inl"
+//#include "timer.inl"
+
+#endif // HELLO

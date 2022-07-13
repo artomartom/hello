@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/Writer.dir/Writer.cpp.o -o Writer 

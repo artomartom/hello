@@ -4,32 +4,27 @@
 
 namespace Writer
 {
+#define FLAG(name) \
+    struct name    \
+    {              \
+    }
 
-    enum class Out : uint32_t
-    {
-        None = 0,
-        Console = 1,
-        File = (Console + 1),
-    };
-    enum class Type : uint32_t
-    {
-        None = 0,
-        Log = 1,
-        Warning = (Log + 1),
-        Error = (Warning + 1),
+    FLAG(Console);
+    FLAG(File);
+    FLAG(_Log);
+    FLAG(_Warning);
+    FLAG(_Error);
 
-    };
-
-    template <Type T, Out O>
+    template <typename ...Args >
     struct Message;
 
-    template <Out OT>
-    using Log = Message<Type::Log, OT>;
+    template <typename Out>
+    using Log = Message<_Log, Out>;
 
-    template <Out OT>
-    using Warning = Message<Type::Warning, OT>;
+    template <typename Out>
+    using Warning = Message<_Warning, Out>;
 
-    template <Out OT>
-    using Error = Message<Type::Error, OT>;
+    template <typename Out>
+    using Error = Message<_Error, Out>;
 };
-#endif
+#endif //WRITER_HPP
