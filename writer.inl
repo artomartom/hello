@@ -1,7 +1,7 @@
 #ifndef WRITER_INL
 #define WRITER_INL
 
-#define CONSTEXPR constexpr
+
 
 namespace Writer
 {
@@ -10,7 +10,7 @@ namespace Writer
     struct AddSpace
     {
         AddSpace(const T &ref) : ref{ref} {};
-        CONSTEXPR friend std::wostream &operator<<(std::wostream &os, const AddSpace &that)
+        friend std::wostream &operator<<(std::wostream &os, const AddSpace &that)
         {
             return os << L' ' << that.ref;
         }
@@ -31,7 +31,7 @@ namespace Writer
     };
 
     template <typename Arg, typename... Args>
-    CONSTEXPR std::wstringstream Accumulate(const Arg &arg, const Args &...args)
+    std::wstringstream Accumulate(const Arg &arg, const Args &...args)
     {
         std::wstringstream ss{};
         (((ss << PutLocalTime{}) << arg) << ... << AddSpace<const Args &>(args)) << L'\n';
@@ -42,7 +42,7 @@ namespace Writer
     struct Message<_Log, Console>
     {
         template <typename Arg, typename... Args>
-        CONSTEXPR static void Write(const Arg &arg, const Args &...args)
+        static void Write(const Arg &arg, const Args &...args)
         {
             auto ss{Accumulate(std::forward<const Arg &>(arg), std::forward<const Args &>(args)...)};
             std::lock_guard<std::mutex> lockGuard{m};
@@ -59,7 +59,7 @@ namespace Writer
     struct Message<_Error, Console>
     {
         template <typename Arg, typename... Args>
-        CONSTEXPR static void Write(const Arg &arg, const Args &...args)
+        static void Write(const Arg &arg, const Args &...args)
         {
             auto ss{Accumulate(std::forward<const Arg &>(arg), std::forward<const Args &>(args)...)};
             std::lock_guard<std::mutex> lockGuard{m};
@@ -72,7 +72,7 @@ namespace Writer
     struct Message<_Log, File>
     {
         template <typename Arg, typename... Args>
-        CONSTEXPR static void Write(const Arg &arg, const Args &...args)
+        static void Write(const Arg &arg, const Args &...args)
         {
             auto ss{Accumulate(std::forward<const Arg &>(arg), std::forward<const Args &>(args)...)};
             std::lock_guard<std::mutex> lockGuard{m};
@@ -85,7 +85,7 @@ namespace Writer
     struct Message<_Warning, File>
     {
         template <typename Arg, typename... Args>
-        CONSTEXPR static void Write(const Arg &arg, const Args &...args)
+        static void Write(const Arg &arg, const Args &...args)
         {
             auto ss{Accumulate(std::forward<const Arg &>(arg), std::forward<const Args &>(args)...)};
             std::lock_guard<std::mutex> lockGuard{m};
@@ -99,7 +99,7 @@ namespace Writer
     struct Message<_Error, File>
     {
         template <typename Arg, typename... Args>
-        CONSTEXPR static void Write(const Arg &arg, const Args &...args)
+        static void Write(const Arg &arg, const Args &...args)
         {
             auto ss{Accumulate(std::forward<const Arg &>(arg), std::forward<const Args &>(args)...)};
             std::lock_guard<std::mutex> lockGuard{m};
