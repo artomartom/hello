@@ -1,8 +1,9 @@
-
-#include "../hello.hpp"
 #include <thread>
+#include <gtest/gtest.h>
+#include <hello.hpp>
+ 
 using namespace Writer;
-int main()
+TEST(basic, t1)
 {
     /*
     auto Write{

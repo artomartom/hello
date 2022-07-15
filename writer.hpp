@@ -4,6 +4,7 @@
 
 namespace Writer
 {
+
 #define FLAG(name) \
     struct name    \
     {              \
@@ -15,7 +16,7 @@ namespace Writer
     FLAG(_Warning);
     FLAG(_Error);
 
-    template <typename ...Args >
+    template <typename... Args>
     struct Message;
 
     template <typename Out>
@@ -27,4 +28,4 @@ namespace Writer
     template <typename Out>
     using Error = Message<_Error, Out>;
 };
-#endif //WRITER_HPP
+#endif // WRITER_HPP

@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/writer.dir/writer.cpp.o -o writer  -lgtest_main -lgtest 

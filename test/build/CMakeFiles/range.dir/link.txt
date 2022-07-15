@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/range.dir/range.cpp.o -o range  -lgtest_main -lgtest 

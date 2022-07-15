@@ -1,7 +1,6 @@
 #ifndef HELLO
 #define HELLO
 
-
 /*
   __cplusplus > 199711L
 
@@ -26,12 +25,19 @@
 #include <compare>
 #include <mutex>
 #include <tuple>
+#include <type_traits>
+#include <iterator>
+
+
+
 // decl
+#include "range.hpp"
 #include "writer.hpp"
 //#include "exception.hpp"
 //#include "timer.hpp"
 
 // impl
+#include "range.inl"
 #include "writer.inl"
 //#include "exception.inl"
 //#include "timer.inl"
